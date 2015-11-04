@@ -76,8 +76,6 @@ def results_msg(player_name, dealers_score, players_score)
   end
 end
 
-
-
 puts 'Blackjack!'
 puts 'How would you like to be called?'
 player_name = gets.chomp
@@ -118,10 +116,12 @@ loop do
       deal_card(dealer, deck)
     end
   end
+
   system 'clear'
   puts 'Game over...'
   sleep 1
   display_table(player_name, dealer, player, game_over: true)
+
 
   puts 'Play again? (Y/N)'
   break if gets.chomp.downcase == 'n'
