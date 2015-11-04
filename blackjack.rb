@@ -72,6 +72,8 @@ def results_msg(player_name, dealer, player)
   case 
     when (total_value(dealer) == total_value(player))
       "It's a tie!"
+    when busted?(dealer)
+      "#{player_name} won! dealer has busted"
     when busted?(player)
       "oops! You've busted"
     when blackjack?(dealer)
@@ -80,8 +82,6 @@ def results_msg(player_name, dealer, player)
       "#{player_name}, You've hit blackjack"
     when (total_value(dealer) > total_value(player))
       "#{player_name}, you lost"
-    when busted?(dealer)
-      "#{player_name} won! dealer has busted"
     else
       "#{player_name} won!"
   end
@@ -90,7 +90,7 @@ end
 def game_over_msg(player_name, dealer, player)
   system 'clear'
   puts "Game over. Geting results..."
-  sleep 0.5
+  sleep 1
   display_table(player_name, dealer, player, game_over: true)
 end
 
@@ -101,8 +101,8 @@ player_name = gets.chomp
 
 loop do
 system 'clear'
-puts "we're preparing the game..."
-sleep 0.5
+puts "Preparing the game..."
+sleep 1
 # game setup
 dealer = []
 player = []
@@ -114,10 +114,12 @@ end
 display_table(player_name, dealer, player, players_turn: true)
 # player's turn
 while total_value(player) < 21
-  begin
-    puts "hit (h) or stay (s)"
-    input = gets.chomp.downcase
-  end until ['s', 'h'].include?(input)
+  puts "hit (h) or stay (s)"
+  input = gets.chomp.downcase
+  if !['s', 'h'].include?(input)
+    puts "We didn't get that..."
+    next
+  end
   break if input == 's'
   deal_card(player, deck)
   display_table(player_name, dealer, player, players_turn: true)
