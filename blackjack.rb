@@ -36,8 +36,9 @@ def total_value(cards)
 
   second_part_of_cards = cards.map { |v| v[1] }
   total = cards_values.values_at(*second_part_of_cards).inject(:+)
-  if total > 21
-    second_part_of_cards.count('A').times { total -= 10 }
+  
+  second_part_of_cards.count('A').times do
+    total -= 10 if total > 21
   end
   total
 end
